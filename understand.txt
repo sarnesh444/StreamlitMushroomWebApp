@@ -1,0 +1,251 @@
+#-------------Source:From the documentation-----------#
+
+#------------------------ISSUES I FACED----------------#
+attribute error:st.number_input() not found
+
+I was fortunate enough that streamlit has a great community and a discussion forum
+
+The issue was I have been using strealit with version 0.48.1 in my virtual env
+Streamlit has introduced number_input() after 0.49.0 so I had to upgrade the package
+using
+pip install --upgrade streamlit
+(or)
+pip install streamlit==0.49.0
+#----------------------------------------------#
+
+#-------------------random-------------#
+everything is displayed in the main screen
+unless specified using st.sidebar only then will the content be displayed in the side navigation window
+
+n_jobs in instantiating the random forest classifier is used to instruct
+CPU to use all the cores thereby speed up the process
+
+#--------------------------------------#
+
+#-------write-----#
+st.write displays contents on screen
+
+#-----------------#
+#---------------------st.cache---------#
+
+USEFUL IN CASE OF LARGE DATASET
+works like picking the dataset
+
+1. @st.cache(persist=True)
+
+The Streamlit cache allows your app to execute quickly even when loading data from the web, manipulating large datasets, or performing expensive computations.
+
+To use the cache, just wrap functions in the @st.cache decorator:
+
+@st.cache  # 👈 This function will be cached
+def my_slow_function(arg1, arg2):
+    # Do something really slow in here!
+    return the_output
+
+When you mark a function with the @st.cache decorator, it tells Streamlit that whenever the function is called it needs to check a few things:
+
+The input parameters that you called the function with
+The value of any external variable used in the function
+The body of the function
+The body of any function used inside the cached function
+If this is the first time Streamlit has seen these four components
+with these exact values and in this exact combination and order,
+it runs the function and stores the result in a local cache.
+Then, next time the cached function is called, if none of these components
+changed, Streamlit will just skip executing the function altogether and,
+ instead, return the output previously stored in the cache.
+
+#-------------------------------------------------------------#
+
+
+#--------st.pypot-------#
+2.st.pyplot()
+
+USED TO DISPLAY A PLOT IN STREAMLIT
+
+Display a matplotlib.pyplot figure.
+
+Parameters:
+fig (Matplotlib Figure) – The figure to plot. When this argument isn’t specified, which is the usual case, this function will render the global plot.
+clear_figure (bool) –
+If True, the figure will be cleared after being rendered. If False, the figure will not be cleared after being rendered. If left unspecified, we pick a default based on the value of fig.
+
+If fig is set, defaults to False.
+If fig is not set, defaults to True. This simulates Jupyter’s approach to matplotlib rendering.
+**kwargs (any) – Arguments to pass to Matplotlib’s savefig function.
+#---------------------------------------------------------------#
+
+
+#-------selectbox------------#
+
+3.st.sidebar.selectbox
+
+classifier = st.sidebar.selectbox("Classifier", ("Support Vector Machine (SVM)", "Logistic Regression", "Random Forest"))
+"classifier"=text to be displayed
+"Support Vector Machine (SVM)", "Logistic Regression", "Random Forest"-options of the dropdown
+
+selectbox is a dropdown
+
+streamlit.selectbox(label, options, index=0, format_func=<class 'str'>, key=None)
+Display a select widget.
+
+Parameters:
+label (str) – A short label explaining to the user what this select widget is for.
+options (list, tuple, numpy.ndarray, or pandas.Series) – Labels for the select options. This will be cast to str internally by default.
+index (int) – The index of the preselected option on first render.
+format_func (function) – Function to modify the display of the labels. It receives the option as an argument and its output will be cast to str.
+key (str) – An optional string to use as the unique key for the widget. If this is omitted, a key will be generated for the widget based on its content. Multiple widgets of the same type may not share the same key.
+Returns:
+The selected option
+
+Return type:
+any
+
+Example
+
+>>> option = st.selectbox(
+...     'How would you like to be contacted?',
+...     ('Email', 'Home phone', 'Mobile phone'))
+>>>
+>>> st.write('You selected:', option)
+#--------------------------------------------------#
+
+#--------------Multiselect-------------------#
+metrics = st.sidebar.multiselect("What metrics to plot?", ('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve'))
+
+"What metrics to plot?"-text to be displayed
+('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve')=options for the user to select
+
+
+streamlit.multiselect(label, options, default=None, format_func=<class 'str'>, key=None)
+Display a multiselect widget. The multiselect widget starts as empty.
+
+Parameters:
+label (str) – A short label explaining to the user what this select widget is for.
+options (list, tuple, numpy.ndarray, or pandas.Series) – Labels for the select options. This will be cast to str internally by default.
+default ([str] or None) – List of default values.
+format_func (function) – Function to modify the display of selectbox options. It receives the raw option as an argument and should output the label to be shown for that option. This has no impact on the return value of the selectbox.
+key (str) – An optional string to use as the unique key for the widget. If this is omitted, a key will be generated for the widget based on its content. Multiple widgets of the same type may not share the same key.
+Returns:
+A list with the selected options
+
+Return type:
+[str]
+
+Example
+
+>>> options = st.multiselect(
+...     'What are your favorite colors',
+...     ['Green', 'Yellow', 'Red', 'Blue'],
+...     ['Yellow', 'Red'])
+>>>
+>>> st.write('You selected:', options)
+#--------------------------------------------------#
+
+
+#-------sidebar-------#
+side navigation bar
+#---------------------#
+
+#-------subheader------#
+
+st.sidebar.subheader
+works like a h2
+#----------------------#
+
+#---------number input------------#
+it is used to take a number as a input from the user
+
+C = st.sidebar.number_input("C (Regularization parameter)", 0.01, 10.0, step=0.01, key='C_SVM')
+C (Regularization parameter):name of parameter output to be displayed
+0.01=min val
+10.0=max val
+step=0.01 is the rate at which user can increase/decrease the input using plus/minus buttons
+key='c' is like the id for the var
+
+streamlit.number_input(label, min_value=None, max_value=None, value=<streamlit.DeltaGenerator.NoValue object>, step=None, format=None, key=None)
+Display a numeric input widget.
+
+Parameters:
+label (str or None) – A short label explaining to the user what this input is for.
+min_value (int or float or None) – The minimum permitted value. If None, there will be no minimum.
+max_value (int or float or None) – The maximum permitted value. If None, there will be no maximum.
+value (int or float or None) – The value of this widget when it first renders. Defaults to min_value, or 0.0 if min_value is None
+step (int or float or None) – The stepping interval. Defaults to 1 if the value is an int, 0.01 otherwise. If the value is not specified, the format parameter will be used.
+format (str or None) – A printf-style format string controlling how the interface should display numbers. Output must be purely numeric. This does not impact the return value. Valid formatters: %d %e %f %g %i
+key (str) – An optional string to use as the unique key for the widget. If this is omitted, a key will be generated for the widget based on its content. Multiple widgets of the same type may not share the same key.
+Returns:
+The current value of the numeric input widget. The return type will match the data type of the value parameter.
+
+Return type:
+int or float
+
+Example
+
+>>> number = st.number_input('Insert a number')
+>>> st.write('The current number is ', number)
+#------------------------------------------------------#
+
+
+
+#----------radio-------------#
+radio button helps user select an option
+
+kernel = st.sidebar.radio("Kernel", ("rbf", "linear"), key='kernel')
+* "Kernel" is the text to be displayed to user
+* ("rbf", "linear") =options that can be displayed to the user works
+like radio group itself to use mulitple selction we have to use the widget multiselct
+* key='kernel' works like an id
+
+
+
+streamlit.radio(label, options, index=0, format_func=<class 'str'>, key=None)
+Display a radio button widget.
+
+Parameters:
+label (str) – A short label explaining to the user what this radio group is for.
+options (list, tuple, numpy.ndarray, or pandas.Series) – Labels for the radio options. This will be cast to str internally by default.
+index (int) – The index of the preselected option on first render.
+format_func (function) – Function to modify the display of radio options. It receives the raw option as an argument and should output the label to be shown for that option. This has no impact on the return value of the radio.
+key (str) – An optional string to use as the unique key for the widget. If this is omitted, a key will be generated for the widget based on its content. Multiple widgets of the same type may not share the same key.
+Returns:
+The selected option.
+
+Return type:
+any
+
+Example
+
+>>> genre = st.radio(
+...     "What's your favorite movie genre",
+...     ('Comedy', 'Drama', 'Documentary'))
+>>>
+>>> if genre == 'Comedy':
+...     st.write('You selected comedy.')
+... else:
+...     st.write("You didn't select comed('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve')y.")
+#-------------------------------------------------------#
+
+
+#------slider-----------#
+max_iter = st.sidebar.slider("Maximum number of iterations", 100, 500, key='max_iter')
+"Maximum number of iterations"=text to be displayed
+100=min val
+500=max val
+key=id for the var
+When you’ve got the data or model into the state that you want to explore, you can add in widgets like st.slider(), st.button() or st.selectbox(). It’s really straightforward — just treat widgets as variables:
+
+import streamlit as st
+x = st.slider('x')  # 👈 this is a widget
+st.write(x, 'squared is', x * x)
+On first run, the app above should output the text “0 squared is 0”. Then every time a user interacts with a widget, Streamlit simply reruns your script from top to bottom, assigning the current state of the widget to your variable in the process.
+
+For example, if the user moves the slider to position 10, Streamlit will rerun the code above and set x to 10 accordingly. So now you should see the text “10 squared is 100”.
+#-------------------------------#
+
+#-----for uploading files-------#
+image_file = st.file_uploader("Upload your image", type=["jpeg", "jpg", "png"])
+        confidence_threshold = st.slider(
+            "Confidence threshold", min_value=0.0, max_value=1.0, value=0.5, step=0.05
+        )
+#-------------------------------#
